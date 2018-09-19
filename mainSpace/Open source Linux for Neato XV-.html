@@ -1,0 +1,178 @@
+<html>
+  <head>
+    <title>xv11hacking - Open source Linux for Neato XV-</title>
+    <link rel="stylesheet" href="static/style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  </head>
+  <body>
+    <div class="wiki" id="content_view" style="display: block;">
+<p><h1>Open source Linux for Neato XV-<small> #Linux #Robot </small></h1><h1 id="toc0"><a name="Neato Linux"></a>Neato Linux</h1>
+ Newer models (XV-14/XV-15/XV-21/XV-25 ???) with board revision 64 are running on Linux Kernel 2.6.33.7<br />
+The open source parts of the code are provided on the CD labeled as &quot;Neato Vacuum User Guide&quot; that comes with the robot. The source is located under the directory &quot;LinuxSrc&quot;<br />
+<br />
+<img src="files/photo%20of%20CD.JPG" alt="photo of CD.JPG" title="photo of CD.JPG" style="height: 240px; width: 235px;" align="left" /><br />
+<img src="files/folders%20of%20CD.JPG" alt="folders of CD.JPG" title="folders of CD.JPG" /><br />
+<br />
+The source contains few Neato specific bits related to the operation of the robot, however some intresting details are disclosed:<br />
+<ul><li>The unpopulated footprint (J2) on the PCB Rev 64 is indeed a SD Card footprint, and the source reveals that the kernel has SD Card support.</li><li>The presense USB Gadget drivers of suggests that the Neato has USB OTG support and &quot;Ethernet over USB&quot; capabilities (unconfirmed)</li><li><span style="font-size: 13px; line-height: 1.5;">Mystery .raw file </span>\LinuxSrc\rootfs\etc\test_map.raw (400KB). Could this be sample LIDAR data?</li><li>Contents of the file \LinuxSrc\rootfs\etc\Issue: &quot;Welcome hackers!&quot;. :</li><li><span style="font-size: 13px; line-height: 1.5;">Readme.txt of the LinuxSrc folder:<br />
+.</span><a href="files/readme.txt">readme.txt</a></li></ul><br />
+<h2 id="toc1"><a name="Neato Linux-Bootloader access"></a>Bootloader access</h2>
+ Bootloader access can be achived by isseuing the following command to the robot over USB Serial connection.<br />
+<br />
+
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.text  {font-family:monospace;}
+.text .imp {font-weight: bold; color: red;}
+.text span.xtra { display:block; }
+
+-->
+</style><pre class="text">testmode on
+setsystemmode PowerCycleCDC</pre>
+
+(*CDC = Communications Device Class ????)<br />
+<br />
+The Neato then reappears on the serial bus (on Windows you might have to unplug and reconnect the USB cable for this device to appear) as an another device &quot;XV-11 BOOTLOADER&quot;<br />
+<br />
+Accessing this device offers a limited console over USB serial with no local echo.<br />
+Contents of the folder LinuxSrc\boot indicate that <a class="wiki_link_ext" href="http://www.denx.de/wiki/U-Boot" rel="nofollow" target="_blank">U-boot</a> is, or was used as, bootloader on the Neato at some point &quot;<em>[Hopefully u-boot doesn't make it to production, but if it does..</em>], LinuxSrc\boot\arch\arm\cpu\lpc313, line 453.<br />
+The Neato bootloader console does not support any of the standard U-boot commands.<br />
+
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.text  {font-family:monospace;}
+.text .imp {font-weight: bold; color: red;}
+.text span.xtra { display:block; }
+
+-->
+</style><pre class="text">help
+Cmd not recognized.
+getversion
+NeatoBootVer,2.0,0</pre>
+
+<h3 id="toc2"><a name="Neato Linux-Bootloader access-Supported commands at bootloader console"></a>Supported commands at bootloader console</h3>
+ 
+
+<table class="wiki_table">
+    <tr>
+        <td><strong>Command</strong><br />
+</td>
+        <td><strong>Usage</strong><br />
+</td>
+        <td><strong>Description</strong><br />
+</td>
+    </tr>
+    <tr>
+        <td>GetVersion<br />
+</td>
+        <td>getversion<br />
+</td>
+        <td>Prints version information<br />
+</td>
+    </tr>
+    <tr>
+        <td>Boot<br />
+</td>
+        <td>boot<br />
+</td>
+        <td>boot the robot OS<br />
+</td>
+    </tr>
+    <tr>
+        <td>Upload<br />
+</td>
+        <td>?<br />
+</td>
+        <td>upload firmware to the robot?<br />
+</td>
+    </tr>
+    <tr>
+        <td><br />
+</td>
+        <td><br />
+</td>
+        <td>download firmware from the robot?<br />
+</td>
+    </tr>
+</table>
+
+<strong>Looking for commands at the bootloader console</strong><br />
+The bootloader console matches input stream &quot;byte by byte&quot; to find the first match. For example input &quot;<strong>boot</strong>xyz123hskdfhskdjfhksjd&quot;, triggers the &quot;boot&quot; command, ignoring any trailing charachters. This implies that there are no variations on commands like &quot;bootusb&quot; (unconfirmed).<br />
+<br />
+<h2 id="toc3"><a name="Neato Linux-Flashing the Neato"></a>Flashing the Neato</h2>
+ <span style="background-color: #f96262;">Warning messing around with the bootloader could potentially brick your robot with no known method of recovery</span><br />
+Using the bootloader console it might be possible to flash the Neato using a custom firmware (unconfirmed).<br />
+
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.text  {font-family:monospace;}
+.text .imp {font-weight: bold; color: red;}
+.text span.xtra { display:block; }
+
+-->
+</style><pre class="text">upload code
+File size invalid</pre>
+
+<br />
+<h2 id="toc4"><a name="Neato Linux-Neato open source code"></a>Neato open source code</h2>
+ The files are clearly identified as open source! (106MB)<br />
+<span style="font-family: Calibri,sans-serif; font-size: 11pt;"><a class="wiki_link_ext" href="http://www.axifile.com/en/F2D0DB4C4E" rel="nofollow">http://www.axifile.com/en/F2D0DB4C4E</a></span><br />
+<br />
+(note: if this link doesn't work anymore, then there was no use for it in the past 30 days... let me (<a class="wiki_link_ext" href="http://www.wikispaces.com/user/view/KPPlayer" rel="nofollow">KPPlayer)</a><br />
+know and I'll upload again.)<br />
+<br />
+<h2 id="toc5"><a name="Neato Linux-Other resources"></a>Other resources</h2>
+ <a class="wiki_link_ext" href="http://www.nxp.com/products/microcontrollers/arm9/LPC3143FET180.html" rel="nofollow" target="_blank">http://www.nxp.com/products/microcontrollers/arm9/LPC3143FET180.html</a>Vendor info and datasheet for the NXP LPC3134<br />
+<a class="wiki_link_ext" href="http://dfu-util.gnumonks.org/" rel="nofollow" target="_blank">http://dfu-util.gnumonks.org/</a>USB DFU (Device Firmware Upgrade) Utilities. DFU possible?<br />
+<a class="wiki_link_ext" href="http://www.lpclinux.com/LPC313x/LPC313xMain" rel="nofollow" target="_blank">http://www.lpclinux.com/LPC313x/LPC313xMain</a> How to get Linux running on a NXP LPC313/4/5</div>
+      <h2>Discussions</h2></hr>
+      <div id="share-list">
+            <div class="tc-timeline-block tc-announcement-block" style="padding-left: 0px;">
+              <div class="tc-timeline-box" data-id="61521104">
+                <div class="media">
+                  <span class="pull-left userLink">
+                    KPPlayer
+                  </span>
+                  <div class="media-body">
+                    <div class="tc-timeline-box-header ws-reveal media-heading">
+                      <h3 class="tc-box-title">Wiki editing</h3>
+                      <div class="tc-box-name-date">
+                        <span class="author-name">KPPlayer</span>
+                        <abbr style="border-bottom-style: none;" class="timeago tc-block-date">23 February 2013 00:42:30</abbr>
+                      </div>
+                    </div>
+                    <div class="tc-block-content">
+                      <div class="clearfix">
+                        <p>My first ever wiki page! Any feedbck and/or help appreciated!</p>
+                      </div>
+                    </div>
+                    
+              <div class="tc-timeline-comments">
+                  <div class="tc-timeline-comment media">
+                    <span class="pull-left userLink">
+                      bj0rn
+                    </span>
+                    <div class="media-body">
+                      <div class="tc-box-name-date">
+                        <span class="tc-commenter">bj0rn</span>
+                        <abbr style="border-bottom-style: none;" class="timeago tc-comment-date">18 May 2013 13:21:18</abbr>
+                      </div>
+                      <p>Hey, I added some more details to your page. It seems it is possible to access the bootloader</p>
+                    </div>
+                  </div></hr></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </div>
+  </body>
+</html>

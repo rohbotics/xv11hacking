@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>xv11hacking - Interfacing LIDAR sensor to other Devices</title>
+    <link rel="stylesheet" href="static/style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  </head>
+  <body>
+    <div class="wiki" id="content_view" style="display: block;">
+<p><h1>Interfacing LIDAR sensor to other Devices<small> #lidarxv11interface </small></h1>I created a board to interface the LIDAR sensor to a PC without the rest of the XV-11. The PCB consists of a PIC18F2221, and FTDI-232R, a 3.3V regulator, and a Fet for controlling the motor. The pic watches the data from the LIDAR and uses the speed information to control the PWM pin attached to the FET. In this way the correct speed can be maintained. The Firmware for the pic currently only supports the old LIDAR firmware ( that is what I have). Hopefully someone else can modify it to work with the other firmware as well. There are jumpers for configuring who talks to what between the PC, PIC, and LIDAR. There are also options for supplying your own 5V instead of getting it from USB and an option for using an XBEE for wireless communication. Schematics are posted below as well as the Eagle brd files. Source code for the PIC will be posted soon. I have spare boards for sale if anyone is interested. Ringo (dot) Davis (at) gmail (dot) com<br />
+<br />
+<img src="files/IMG_20110714_141123.jpg" alt="IMG_20110714_141123.jpg" title="IMG_20110714_141123.jpg" style="height: 787px; width: 600px;" /><img src="files/IMG_20110714_141004.jpg" alt="IMG_20110714_141004.jpg" title="IMG_20110714_141004.jpg" style="height: 754px; width: 577px;" /><br />
+<br />
+<a href="files/xv11_lidar_controller_V1.0_schematic.pdf">xv11_lidar_controller_V1.0_schematic.pdf</a><br />
+<a href="files/xv11_lidar_controllerV1.0%20brd-sch.zip">xv11_lidar_controllerV1.0 brd-sch.zip</a><br />
+<br />
+<h1 id="toc0"><a name="Additional Board Interfaces"></a>Additional Board Interfaces</h1>
+ <a class="wiki_link_ext" href="http://www.getsurreal.com/product/xv-lidar-controller-v1-2" rel="nofollow" target="_blank">XV Lidar Controller by GetSurreal</a><br />
+<br />
+<img src="http://www.getsurreal.com/wp-content/uploads/XV_Lidar_Controller_v1.2_LR.jpg" alt="external image XV_Lidar_Controller_v1.2_LR.jpg" title="external image XV_Lidar_Controller_v1.2_LR.jpg" /><br />
+<img src="http://www.getsurreal.com/wp-content/uploads/XV_Lidar_Mount_with_Controller.jpg" alt="external image XV_Lidar_Mount_with_Controller.jpg" title="external image XV_Lidar_Mount_with_Controller.jpg" style="height: 429px; width: 625px;" /><br />
+<br />
+<h1 id="toc1"><a name="Viewing Data over USB"></a>Viewing Data over USB</h1>
+ <br />
+A simple 5v USB to UART converter is all you need to view the data from your computer, raspberry pi, or any USB port.<br />
+One option can be found <a class="wiki_link_ext" href="https://www.sparkfun.com/products/9716" rel="nofollow">here on sparkfun</a><br />
+Some python code to interpret this data can be found here:<br />
+<a class="wiki_link_ext" href="https://github.com/TeamCharizard/RBE2002/tree/edison/python/visualize_data" rel="nofollow" target="_blank">https://github.com/TeamCharizard/RBE2002/tree/edison/python/visualize_data</a>
+    </div>
+  </body>
+</html>

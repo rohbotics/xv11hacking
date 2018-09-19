@@ -1,0 +1,206 @@
+<html>
+  <head>
+    <title>xv11hacking - XV-11 LCD PCB Information</title>
+    <link rel="stylesheet" href="static/style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  </head>
+  <body>
+    <div class="wiki" id="content_view" style="display: block;">
+<p><h1>XV-11 LCD PCB Information<small> #xv11 #lcd #pcb </small></h1><h4 id="toc0"><a name="x---Information on the LCD peripheral PCB:"></a><strong>Information on the LCD peripheral PCB:</strong></h4>
+ <br />
+<img src="files/LCD_panel_front_labels_copy.PNG" alt="LCD_panel_front_labels_copy.PNG" title="LCD_panel_front_labels_copy.PNG" style="height: 495px; width: 560px;" /> <img src="files/LCD_panel_back_labels.PNG" alt="LCD_panel_back_labels.PNG" title="LCD_panel_back_labels.PNG" style="height: 498px; width: 749px;" /><br />
+<strong>Some notes about the images above:</strong><br />
+<ul><li><span style="color: #e30a0a;"><strong>IMPORTANT LCD INFORMATION</strong>!!!</span> As you can see in the first image, the LCD is labeled &quot;GVLCM128128G 13572A&quot; on its backside. Googling this brings up the following LCD producer: <a class="wiki_link_ext" href="http://www.golden-vision.cn/" rel="nofollow" target="_blank">Golden Vision</a><span class="wiki_link_ext">. However, this exact LCD is not listed on their site, but <a class="wiki_link_ext" href="http://www.golden-vision.cn/productxs.asp?id=24" rel="nofollow" target="_blank">this similar one</a></span> is. All the measurable specs are similar (dimensions are approximately the same - the XV-11's LCD measures approximately 61.6 mm x 55.1 mm x 4.36 mm, which is a bit thicker, probably due to the backlight; 128 x 128 resolution). The only differences I could find are the small white line above the ribbon cable at the bottom of the &quot;similar&quot; LCD isn't present on the XV-11 LCD, and the ribbon cable of the &quot;similar&quot; LCD is 24 pins, not 25 (so the &quot;similar&quot; LCD <span style="color: #f20d27;"><strong>CANNOT BE USED AS A REPLACEMENT - IT WOULDN'T BE PIN COMPATIBLE!</strong></span>). Anyway, the company only lists a few 128x128 LCD's in production (none of which match the XV-11's), so this narrows down the list of possible LCD controllers used in the XV-11's LCD to just the <a class="wiki_link_ext" href="http://www.tstonramp.com/%7Epddwebacc/ics_app%20notes/sitronix/ST7541_12.pdf" rel="nofollow" target="_blank">ST7541</a> (others are possible but you could say these are more likely since we know this is the only chip the company uses in their 128x128 greyscale LCD's). We can't be sure until we test out driving this LCD standalone (on my TODO list for the next 2 weeks - I'm waiting on a FFC Ribbon Cable Breakout to come in from New Haven Display (<a class="wiki_link_ext" href="http://www.newhavendisplay.com/index.php?main_page=product_info&amp;cPath=91_123&amp;products_id=1100" rel="nofollow" target="_blank">look here if interested</a>), but from what the datasheet says and the fact that only 2 of the LCD's ribbon cable pins are appear to have data running thru them, it seems like the LCD is controlled by i2c from the main board (see below for pinouts).<br />
+<br />
+</li><li>The white FFC ribbon cable leading connecting the LCD board to the mainboard has a 1mm pitch.<br />
+<br />
+</li><li>The buttons on the LCD board have a pair of legs connected to ground, so it's safe to deduce that the main board has these buttons' signals pulled up (these pullups are not found on the LCD board) and expects to read a LOW signal when these buttons are pressed down. See table below for which button is which.<br />
+<br />
+</li><li>K1, K2, and K3 labeled in the second image are 3 of the 4 pins attaching the LCD backlight to the PCB. These pins go thru resistors to Q1, which appears to be a transistor driven by pin 10 of the white FFC ribbon cable (going to the mainboard). When a voltage is applied to Q1, it connects K(1-3) to GND, turning the backlight ON. K4, the last of the backlight's pins, connects to pin 14 of the white FFC ribbon cable (see table below for appropriate voltages).<br />
+<br />
+</li><li>All 4 LED's (2 per Double-LED) run fine at about 20mA @ 2V, with ~ 68 Ohm resistors each, so a 3.3V signal line that can source about 40mA should suffice for each color (each LED color pair has its own pin - see table below)<br />
+<br />
+</li></ul><strong>EagleCAD LCD PCB Files:</strong><br />
+<ul><li>I've reverse engineered the LCD peripheral board into EagleCAD, just in case it comes in handy</li><li><span style="color: #e30a0a;"><strong>IMPORTANT DISCLAIMER:</strong> </span><span style="color: #000000;">I did my best to determine all the dimensions, but there are likely some minor inaccuracies</span>. Looking at the XV-11's case, the LCD PCB fits snugly in the outline and all the buttons and LED's have to line up nicely with the plastic to work properly. If for whatever reason you want to use these files to produce a custom LCD peripheral board, just be warned it may not work (but this is probably your best chance at a template for one).</li></ul><a href="files/LCD_board_opensource.brd">LCD_board_opensource.brd</a><br />
+<a href="files/LCD_board_opensource.sch">LCD_board_opensource.sch</a><br />
+<br />
+<strong>16 Pin Main PCB FFC Ribbon Cable (white) Pinout (still working on it...):</strong><br />
+
+
+<table class="wiki_table">
+    <tr>
+        <td><strong>Pin #</strong><br />
+</td>
+        <td><strong>Signal Type</strong><br />
+</td>
+        <td><strong>Signal</strong><br />
+</td>
+        <td><strong>Notes</strong><br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>1 ( * )</strong><br />
+</td>
+        <td>OUTPUT<br />
+</td>
+        <td>SW1 - &quot;SOFT&quot;<br />
+</td>
+        <td>Pulled up on mainboard (internally in ARM?); LOW means button is pressed<br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>2</strong><br />
+</td>
+        <td>OUTPUT<br />
+</td>
+        <td>SW3 - &quot;BACK&quot;<br />
+</td>
+        <td>Pulled up on mainboard (internally in ARM?); LOW means button is pressed<br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>3</strong><br />
+</td>
+        <td>POWER/INPUT<br />
+</td>
+        <td>Green LED's<br />
+</td>
+        <td>Run HIGH ~(3.3V) to turn on, make sure the pin can source ~40mA<br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>4</strong><br />
+</td>
+        <td>OUTPUT<br />
+</td>
+        <td>SW4 - &quot;UP&quot;<br />
+</td>
+        <td>Pulled up on mainboard (internally in ARM?); LOW means button is pressed<br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>5</strong><br />
+</td>
+        <td>POWER/INPUT<br />
+</td>
+        <td>Amber LED's<br />
+</td>
+        <td>Run HIGH ~(3.3V) to turn on, make sure the pin can source ~40mA<br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>6</strong><br />
+</td>
+        <td>OUTPUT<br />
+</td>
+        <td>SW2 - &quot;DOWN&quot;<br />
+</td>
+        <td>Pulled up on mainboard (internally in ARM?); LOW means button is pressed<br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>7</strong><br />
+</td>
+        <td>OUTPUT<br />
+</td>
+        <td>SW5 - &quot;START&quot;<br />
+</td>
+        <td>Pulled up on mainboard (internally in ARM?); LOW means button is pressed<br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>8</strong><br />
+</td>
+        <td><br />
+</td>
+        <td>LCD Pin 21<br />
+</td>
+        <td><br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>9</strong><br />
+</td>
+        <td><br />
+</td>
+        <td>LCD Pin 20<br />
+</td>
+        <td><br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>10</strong><br />
+</td>
+        <td>INPUT<br />
+</td>
+        <td>Backlight Switch<br />
+</td>
+        <td>Run HIGH (~3.3v) to turn LCD backlight on; signal goes to transistor Q1<br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>11</strong><br />
+</td>
+        <td><br />
+</td>
+        <td>LCD Pin 22<br />
+</td>
+        <td><br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>12</strong><br />
+</td>
+        <td>POWER<br />
+</td>
+        <td>GND<br />
+</td>
+        <td><br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>13</strong><br />
+</td>
+        <td><br />
+</td>
+        <td>LCD Pin 10<br />
+</td>
+        <td><br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>14</strong><br />
+</td>
+        <td>POWER<br />
+</td>
+        <td>5V<br />
+</td>
+        <td>Backlight Power; goes to K4; Measured at ~4.8V... K4 measured at ~3V<br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>15</strong><br />
+</td>
+        <td><br />
+</td>
+        <td>LCD Pin 11<br />
+</td>
+        <td><br />
+</td>
+    </tr>
+    <tr>
+        <td><strong>16</strong><br />
+</td>
+        <td>POWER<br />
+</td>
+        <td>3.3V<br />
+</td>
+        <td>LCD Power<br />
+</td>
+    </tr>
+</table>
+
+
+    </div>
+  </body>
+</html>

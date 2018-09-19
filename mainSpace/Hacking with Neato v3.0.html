@@ -1,0 +1,174 @@
+<html>
+  <head>
+    <title>xv11hacking - Hacking with Neato v3.0</title>
+    <link rel="stylesheet" href="static/style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  </head>
+  <body>
+    <div class="wiki" id="content_view" style="display: block;">
+<p><h1>Hacking with Neato v3.0</h1></p>The Neatos that are delivered with Firmware 3.0 are a different hardware revision compared to previous models.<br />
+<br />
+Previous versions (incl. the Vorwerk VR100) are codename 'Cruz'.<br />
+The new hardware revision has codename 'Binky'.<br />
+<br />
+There's a bootloader you can get into on my XV25/Binky. I don't know if this is unique for Binky:<br />
+<br />
+
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.text  {font-family:monospace;}
+.text .imp {font-weight: bold; color: red;}
+.text span.xtra { display:block; }
+
+-->
+</style><pre class="text">testmode on
+setsystemmode PowerCycleCDC</pre>
+
+The Neato then disappears from the USB, and reappears with a limited CLI that doesn't local echo and doesn't support most commands I've tried.<br />
+
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.text  {font-family:monospace;}
+.text .imp {font-weight: bold; color: red;}
+.text span.xtra { display:block; }
+
+-->
+</style><pre class="text">help
+Cmd not recognized.
+getversion
+NeatoBootVer,2.0,0
+upload code
+File size invalid</pre>
+
+<br />
+There's more, but be careful.<br />
+Also, don't try to stuff the Vorwerk update into here.<br />
+<br />
+That's for Cruz, and will probably brink your Binky.<br />
+<br />
+Here's the version data before upgrade:<br />
+<br />
+
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.text  {font-family:monospace;}
+.text .imp {font-weight: bold; color: red;}
+.text span.xtra { display:block; }
+
+-->
+</style><pre class="text">getversion
+Component,Major,Minor,Build
+ModelID,-1,XV25,
+ConfigID,2,,
+Serial Number,XXX00000XX,0015662,P
+Software,3,0,17235
+BatteryType,1,NIMH_12CELL,
+BlowerType,1,BLOWER_ORIG,
+BrushSpeed,1200,,
+BrushMotorType,1,BRUSH_MOTOR_ORIG,
+SideBrushType,1,SIDE_BRUSH_NONE,
+WheelPodType,1,WHEEL_POD_ORIG,
+DropSensorType,1,DROP_SENSOR_ORIG,
+MagSensorType,1,MAG_SENSOR_ORIG,
+WallSensorType,1,WALL_SENSOR_ORIG,
+Locale,1,LOCALE_USA,
+LDS Software,V2.6.15295,0000000000,
+LDS Serial,XXX00000XX-0000000,,
+LDS CPU,F2802x/c001,,
+BootLoader Software,17225,P,p
+MainBoard Vendor ID,543,,
+MainBoard Serial Number,000000000000000000000000,,
+MainBoard Software,17242,1,
+MainBoard Boot,16219,
+MainBoard Version,4,0,
+ChassisRev,2,,
+UIPanelRev,1,,
+testmode on
+testlds cmd getversion
+Sending getversion...
+getversion
+&nbsp;
+GetVersion...3 ESCs or BRAK to abort...:)
+Piccolo Laser Distance Scanner
+Copyright (c) 2009-2011 Neato Robotics, Inc.
+All Rights Reserved
+&nbsp;
+Loader    V2.5.14010
+CPU    F2802x/c001
+Serial    XXX00000XX-0000000,,
+LastCal    [5371726C]
+Runtime    V2.6.15295
+OK
+#testmode off</pre>
+
+<br />
+This is after the upgrade<br />
+<br />
+
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.text  {font-family:monospace;}
+.text .imp {font-weight: bold; color: red;}
+.text span.xtra { display:block; }
+
+-->
+</style><pre class="text">getversion
+Component,Major,Minor,Build
+ModelID,-1,XV25,
+ConfigID,2,,
+Serial Number,XXX00000XX,0015662,P
+Software,3,1,17844
+BatteryType,1,NIMH_12CELL,
+BlowerType,1,BLOWER_ORIG,
+BrushSpeed,1200,,
+BrushMotorType,1,BRUSH_MOTOR_ORIG,
+SideBrushType,1,SIDE_BRUSH_NONE,
+WheelPodType,1,WHEEL_POD_ORIG,
+DropSensorType,1,DROP_SENSOR_ORIG,
+MagSensorType,1,MAG_SENSOR_ORIG,
+WallSensorType,1,WALL_SENSOR_ORIG,
+Locale,1,LOCALE_USA,
+LDS Software,V2.6.15295,0000000000,
+LDS Serial,XXX00000XX-0000000,,
+LDS CPU,F2802x/c001,,
+MainBoard Vendor ID,543,,
+MainBoard Serial Number,555,,
+BootLoader Software,17225,P,p
+MainBoard Software,17624,1,
+MainBoard Boot,16219,
+MainBoard Version,4,0,
+ChassisRev,2,,
+UIPanelRev,1,,
+testmode on
+testlds cmd getversion
+Sending getversion...
+getversion
+GetVersion...3 ESCs or BREAK to abort...:)
+Piccolo Laser Distance Scanner
+Copyright (c) 2009-2011 Neato Robotics, Inc.
+All Rights Reserved
+&nbsp;
+Loader V2.5.14010
+CPU F2802x/c001
+Serial XXX00000XX-0000000,,
+LastCal [5371726C]
+Runtime V2.6.15295
+OK
+#testmode off</pre>
+
+
+    </div>
+  </body>
+</html>

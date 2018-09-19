@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <title>xv11hacking - Motors</title>
+    <link rel="stylesheet" href="static/style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  </head>
+  <body>
+    <div class="wiki" id="content_view" style="display: block;">
+<p><h1>Motors</h1></p>Data on the drive motors, brush motor, and vacuum fan.<br />
+<br />
+<h2 id="toc0"><a name="x-SetMotor Command"></a>SetMotor Command</h2>
+ Motor speeds can be set using the SetMotor commands. This command is handled asynchronously, so you can query other commands while the robot is moving. The simplest way to set both the left and right motor speed is to use:<br />
+
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.text  {font-family:monospace;}
+.text .imp {font-weight: bold; color: red;}
+.text span.xtra { display:block; }
+
+-->
+</style><pre class="text">SetMotor left_dist right_dist speed</pre>
+
+Where left_dist and right_dist are a distance to travel in millimeters, and speed is the speed to use for movement in millimeters per second. Speed must be positive, and at least one of left_dist or right_dist must be non-zero. Drive motor speeds are -300 mm/s to 300 mm/s. These max speeds also induce a rotational max speed of approximately +/- 2.25 radians/sec given the separation of the wheels.<br />
+<br />
+It appears that when different distances are put in, the speed will be applied to the wheel moving the farther distance, and the other wheel will be scaled such that both wheels take the same amount of time to travel their complete distance. (Can someone confirm this on their bot? - Fergy). <br />
+<br />
+Some examples:<br />
+<ul><li>SetMotor 100 100 100 - will move the robot forward 100mm, in approximately one second</li><li>SetMotor 100 -100 100 - will turn the robot to the right in place, for 1 second.</li><li>SetMotor 100 200 100 - the robot will move forward and to the left, for 2 seconds.</li></ul><br />
+The base width separation of the wheel is approximately 248 millimeters. Therefore, the circumference when turning in place is approximately 780 millimiters. Thus, we can turn the robot using:<br />
+<ul><li>SetMotor 195 -195 100 - the robot will turn in place, 90 degrees to the right.</li></ul>
+    </div>
+  </body>
+</html>

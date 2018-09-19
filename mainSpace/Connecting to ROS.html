@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <title>xv11hacking - Connecting to ROS</title>
+    <link rel="stylesheet" href="static/style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  </head>
+  <body>
+    <div class="wiki" id="content_view" style="display: block;">
+<p><h1>Connecting to ROS</h1></p><h2 id="toc0"><a name="x-The following procedure will help you install the Robot Operating System on Ubuntu 10.10 for use with the XV-11."></a>The following procedure will help you install the Robot Operating System on Ubuntu 10.10 for use with the XV-11.</h2>
+ <hr />
+<br />
+<span style="font-family: Arial,Helvetica,sans-serif;">I have tested this running Ubuntu 10.10 as a VMware virtual machine as well as installed on a system as the booted OS. Ubuntu is a very easy to use Linux release you can download from <a class="wiki_link_ext" href="http://www.ubuntu.com/" rel="nofollow">here</a></span><br />
+<br />
+<span style="font-family: Arial,Helvetica,sans-serif;">Now lets get started! Open a terminal by clicking on <strong>Applications -&gt; Accessories -&gt; Terminal</strong></span><br />
+<br />
+<span style="font-family: Arial,Helvetica,sans-serif;">Enter the following commands by copying and pasting them into the terminal window. Use <strong>CTRL-C</strong> to copy and then <strong>CTRL-SHIFT-V</strong> to paste them in the terminal window.</span><br />
+<ol><li><span style="font-family: Arial,Helvetica,sans-serif;">sudo sh -c 'echo &quot;deb <a class="wiki_link_ext" href="http://code.ros.org/packages/ros/ubuntu" rel="nofollow">http://code.ros.org/packages/ros/ubuntu</a> maverick main&quot; &gt; /etc/apt/sources.list.d/ros-latest.list'</span></li><li><span style="margin-left: 0in; text-indent: 0in;">wget <a class="wiki_link_ext" href="http://code.ros.org/packages/ros.key" rel="nofollow">http://code.ros.org/packages/ros.key</a> -O - | sudo apt-key add -</span></li><li><span style="margin-left: 0in; text-indent: 0in;">sudo apt-get update</span></li><li><span style="margin-left: 0in; text-indent: 0in;">sudo apt-get install ros-cturtle-base</span></li></ol><br />
+The last command will install approximately 5GB worth of software so grab some coffee, a Rockstar, or your stimulant of choice! Once it is done installing run the commands below to install some more ROS software in your home folder.<br />
+<br />
+<ol><li><span style="margin-left: 0in; text-indent: 0in;">cd; mkdir ros; cd ros</span></li><li>svn co <a class="wiki_link_ext" href="https://brown-ros-pkg.googlecode.com/svn/tags/brown-ros-pkg/teleop_twist_keyboard" rel="nofollow">https://brown-ros-pkg.googlecode.com/svn/tags/brown-ros-pkg/teleop_twist_keyboard</a></li><li><span style="margin-left: 0in; text-indent: 0in;">svn co <a class="wiki_link_ext" href="http://albany-ros-pkg.googlecode.com/svn/trunk/slam_coreslam/coreslam" rel="nofollow">http://albany-ros-pkg.googlecode.com/svn/trunk/slam_coreslam/coreslam</a></span></li><li>svn co <a class="wiki_link_ext" href="http://albany-ros-pkg.googlecode.com/svn/trunk/neato_robot" rel="nofollow">http://albany-ros-pkg.googlecode.com/svn/trunk/neato_robot</a></li><li><span style="margin-left: 0in; text-indent: 0in;">echo '. /opt/ros/cturtle/setup.sh' &gt;&gt; ~/.bashrc</span></li><li>echo 'export ROS_PACKAGE_PATH=~/ros:${ROS_PACKAGE_PATH}' &gt;&gt; ~/.bashrc</li><li>source ~/.bashrc</li><li><span style="margin-left: 0in; text-indent: 0in;">sudo su</span></li><li>echo '. /opt/ros/cturtle/setup.sh' &gt;&gt; ~/.bashrc</li><li><span style="margin-left: 0in; text-indent: 0in;">echo 'export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}' &gt;&gt; ~/.bashrc</span></li><li>exit</li><li><span style="margin-left: 0in; text-indent: 0in;">cd ~/ros/teleop_twist_keyboard; rosmake</span></li><li>cd ~/ros/coreslam; rosmake</li><li><span style="margin-left: 0in; text-indent: 0in;">cd ~/ros/neato_robot; rosmake</span></li></ol><br />
+Now we will edit the /etc/modules file so the usbserial driver will be automatically loaded with the parameters needed. We also add the cdc_acm driver to the blacklist so it will not be used with the XV-11. On a Macbook Pro the system used this driver instead of usbserial.<br />
+<ol><li><span style="margin-left: 0in; text-indent: 0in;">sudo su</span></li><li>echo &quot;usbserial vendor=0x2108 product=0x780B&quot; &gt;&gt; /etc/modules</li><li><span style="font-family: OpenSymbol; font-size: 12pt; margin-left: 0in; text-indent: 0in;">echo &quot;blacklist cdc_acm&quot; &gt;&gt; /etc/modprobe.d/blacklist.conf</span></li><li><span style="font-family: OpenSymbol; font-size: 12pt; margin-left: 0in; text-indent: 0in;">modprobe usbserial vendor=0x2108 product=0x780B</span></li><li><span style="font-family: OpenSymbol; font-size: 12pt; margin-left: 0in; text-indent: 0in;">rmmod cdc_acm</span></li><li><span style="margin-left: 0in; text-indent: 0in;">exit</span></li></ol><br />
+Almost time to plug your XV-11 into the system!! For the sake of simplicity do not plug in any other USB to serial devices at this point. This will ensure your XV-11 appears as <strong>/dev/ttyUSB0</strong> and will simplify setup at this point.<br />
+<ol><li><span style="margin-left: 0in; text-indent: 0in;">ls /dev/ttyU*</span></li></ol><br />
+Once you plug in the XV-11 you should see <strong>/dev/ttyUSB0</strong> appear. <br />
+Now lets load the XV-11 drivers.<br />
+<ol><li>roslaunch neato_node bringup.launch</li></ol><br />
+Entering the above command should initiate a connection to <strong>/dev/ttyUSB0</strong> and after a couple seconds you will hear the LIDAR start to spin on the XV-11. Don't worry if you don't hear it, press <strong>CTRL-C</strong> to exit the driver then enter the command again. I have found it does not seem to start properly upon first load.<br />
+<br />
+Now press <strong>CTRL-SHIFT-T</strong> while your terminal window is selected to open a new tab within that terminal window, just like a new web browser tab. We will open a few of these tabs to load the different ROS drivers/programs.<br />
+<br />
+<ol><li><span style="margin-left: 0in; text-indent: 0in;">roslaunch 2dnav_neato move_base.launch</span></li><li>(open a new tab before running the next command)</li><li><span style="margin-left: 0in; text-indent: 0in;">rosrun rviz rviz</span></li></ol><br />
+J<span style="margin-left: 0in; text-indent: 0in;">ust to verify, you should have three tabs open now with these three commands simultaneously running.</span><br />
+<br />
+SWEET HUH!! Now you have the GUI application running, just a couple more steps and its play time!<br />
+On the top menu bar click <strong>Plugins -&gt; Manage</strong> then click the box next to <strong>Loaded</strong> and click <strong>OK</strong>. There is a video <a class="wiki_link_ext" href="http://%E2%80%A2%09http://www.ros.org/wiki/navigation/Tutorials/Using%20rviz%20with%20the%20Navigation%20Stack" rel="nofollow">here</a> with details on setting up RViz. <br />
+<br />
+You can use this file (<a href="files/XV11.vcg">XV11.vcg</a>) with RViz and it has all those parameters already setup. Right click on the file and save it. Within RViz just go to <strong>File -&gt; Open Config</strong> and select the XV11.vcg file.<br />
+<br />
+Now open a new terminal which we will use for keyboard control to manually navigate the XV-11.<br />
+<ol><li>rosrun teleop_twist_keyboard teleop_twist_keyboard.py</li></ol><br />
+You will see which keys are used to navigate on the screen once the program is running. The default speed settings are too fast for the XV-11 so you need to reduce the speed before it will respond to any input. Repeatedly press the <strong>&quot;x&quot;</strong> key to reduce speed when traveling in a straight line to about 0.10 and then do the same with the <strong>&quot;c&quot;</strong> key to reduce rotational speed to about 0.15. Now you can use the keyboard keys to navigate.<br />
+<br />
+<hr />
+<br />
+From this point you need to create your own map using gmapping and save the map so a map of your area is loaded when launching 2dnav_neato. gmapping needs to be modified from the base install on your system at this point to correct the reversed laser scan data. This wiki will be updated shortly with that procedure. <br />
+<br />
+gmapping is what will allow you to create a map of your surroundings which you will use to navigate.</div>
+      <h2>Discussions</h2></hr>
+      <div id="share-list">
+            <div class="tc-timeline-block tc-announcement-block" style="padding-left: 0px;">
+              <div class="tc-timeline-box" data-id="74440169">
+                <div class="media">
+                  <span class="pull-left userLink">
+                    kubeks92
+                  </span>
+                  <div class="media-body">
+                    <div class="tc-timeline-box-header ws-reveal media-heading">
+                      <h3 class="tc-box-title">Different ROS installation</h3>
+                      <div class="tc-box-name-date">
+                        <span class="author-name">kubeks92</span>
+                        <abbr style="border-bottom-style: none;" class="timeago tc-block-date">17 July 2015 07:37:28</abbr>
+                      </div>
+                    </div>
+                    <div class="tc-block-content">
+                      <div class="clearfix">
+                        <p>Hi, I am new to the ROS. I can't open the linke in first command - <!-- ws:start:WikiTextUrlRule:1:http://code.ros.org/packages/ros/ubuntu --><a class="wiki_link_ext" href="http://code.ros.org/packages/ros/ubuntu" rel="nofollow">http://code.ros.org/packages/ros/ubuntu</a><!-- ws:end:WikiTextUrlRule:1 --> . It seems the website doesn't work anymore. How should I install ROS. Is is the Indigo or I should just follow this guide? - <!-- ws:start:WikiTextUrlRule:2:http://wiki.ros.org/xv_11_laser_driver/Tutorials/Running%20the%20XV-11%20Node --><a class="wiki_link_ext" href="http://wiki.ros.org/xv_11_laser_driver/Tutorials/Running%20the%20XV-11%20Node" rel="nofollow">http://wiki.ros.org/xv_11_laser_driver/Tutorials/Running%20the%20XV-11%20Node</a><!-- ws:end:WikiTextUrlRule:2 --><br />
+Thanks for help !!!</p>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+    </div>
+  </body>
+</html>

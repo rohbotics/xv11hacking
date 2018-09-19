@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <title>xv11hacking - Viewing Maps from the XV-11's Point of View</title>
+    <link rel="stylesheet" href="static/style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  </head>
+  <body>
+    <div class="wiki" id="content_view" style="display: block;">
+<p><h1>Viewing Maps from the XV-11's Point of View</h1></p>Warning: This feature seems to be missing in the current (v2.6) firmware.)<br />
+<br />
+Even though we've got the ability to make our own maps using the XV-11's sensor and ROS, it's nice sometimes to be able to see them from the XV-11's point of view.<br />
+<br />
+Due to the efforts of some of the guys at TrossenRobotics (<a class="wiki_link_ext" href="http://forums.trossenrobotics.com/showthread.php?5123-Some-XV-11-notes/" rel="nofollow">thread link</a>), the SetStreamFormat packet datastream has been partially decoded--at least to the point of being able to grab maps from a running XV-11<br />
+<br />
+The source code is available on githhub here: <a class="wiki_link_ext" href="https://github.com/rbtying/xv11-stream-parser" rel="nofollow">XV-11 Stream Parser</a><br />
+<br />
+After compilation, the code can be used to translate dumps of the XV-11 packet stream into nice 256x256 animated gifs, so you can see into the mind of the XV-11.<br />
+<br />
+You can use the following command to test it out:<br />
+<br />
+
+<style type="text/css"><!--
+
+-->
+</style><pre class="bbcode_code">bin/parser -f example/Packet\ Mode\ Bathroom1\ 09-03-2011.txt</pre>
+
+View the help (run with -h or no flags) for details on the available options.<br />
+<br />
+Some examples below:<br />
+<img src="https://github.com/rbtying/xv11-stream-parser/raw/master/example/bathroom1.gif" alt="external image bathroom1.gif" title="external image bathroom1.gif" /><img src="https://github.com/rbtying/xv11-stream-parser/raw/master/example/bathroom2.gif" alt="external image bathroom2.gif" title="external image bathroom2.gif" /><img src="https://github.com/rbtying/xv11-stream-parser/raw/master/example/capture.gif" alt="external image capture.gif" title="external image capture.gif" /><br />
+<br />
+It can also show you the laser scans of the robot (though the position estimation of the robot is based on some hackish intersection code)<br />
+<br />
+<img src="https://github.com/rbtying/xv11-stream-parser/raw/master/example/bathroom1-laser.gif" alt="external image bathroom1-laser.gif" title="external image bathroom1-laser.gif" /><br />
+<br />
+<img src="https://github.com/rbtying/xv11-stream-parser/raw/master/example/capture-laser.gif" alt="external image capture-laser.gif" title="external image capture-laser.gif" />
+    </div>
+  </body>
+</html>

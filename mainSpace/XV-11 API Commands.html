@@ -1,0 +1,60 @@
+<html>
+  <head>
+    <title>xv11hacking - XV-11 API Commands</title>
+    <link rel="stylesheet" href="static/style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  </head>
+  <body>
+    <div class="wiki" id="content_view" style="display: block;">
+<p><h1>XV-11 API Commands</h1></p><h1 id="toc0"><a name="Commands available through the USB port on the XV-11"></a>Commands available through the USB port on the XV-11</h1>
+ <br />
+Neato Robotics currently has an list of commands accessible to people who want to tinker with their robots.<br />
+See their official site for information: <a class="wiki_link_ext" href="http://www.neatorobotics.com/programmers-manual" rel="nofollow">http://www.neatorobotics.com/programmers-manual</a><br />
+<br />
+<hr />
+<h3 id="toc1"><a name="Commands available through the USB port on the XV-11--Getting a list of Commands"></a>Getting a list of Commands</h3>
+ Your first point of call is the Neato Robotics Programmers Manual listed above. Also if you have an established link to your Neato you can type:-<br />
+<strong><span style="color: #800080;">help</span></strong><br />
+which will list all available commands.<br />
+<br />
+You can also get additional information about commands by typing the command function name after the word help, eg:-<br />
+<strong><span style="color: #800080;">help getmotors</span></strong><br />
+<br />
+<h3 id="toc2"><a name="Commands available through the USB port on the XV-11--Enabling TestMode"></a>Enabling TestMode</h3>
+ A lot of the functions available to programmers can only be used if &quot;TestMode&quot; has been enabled on the Neato. Most functions displayed in the Help are listed as &quot;TestMode Only&quot; which will give you an idea as to what can be only be used when TestMode is enabled.<br />
+If you attempt to use a command before you have enabled TestMode, Neato will politely state that &quot;<em>TestMode must be on to use this command.</em>&quot;<br />
+<br />
+To Enable TestMode<br />
+<strong><span style="color: #800080;">testmode on</span></strong><br />
+To Disable TestMode (do remember to disable TestMode to return your Neato back to normal after you have finished tinkering)<br />
+<strong><span style="color: #800080;">testmode off</span></strong><br />
+<br />
+With TestMode enabled, you Neato will behave a little differently than normal.<br />
+<ul><li>All buttons on the robot will NOT respond to input as it normally does</li><li>You may not be able to re-establish connection to your robot if you unplugged and reconnected in a short period of time. If you cant re-establish connection, wait a few mins before attempting again.</li></ul><br />
+The following commands and examples listed below will assume you have TestMode enabled, (unless specified differently)<br />
+<br />
+<h3 id="toc3"><a name="Commands available through the USB port on the XV-11--Issuing Commands to the Motors"></a>Issuing Commands to the Motors</h3>
+ When you are first experimenting with command, I recommend you turn Neato up-side-down so the wheels can free spin. Otherwise you may get instances where your robot drives away faster than you expected, crashing into things and generally making a mess of your room as it lacks logic to stop.<br />
+<br />
+The basic command to move is<br />
+<strong><span style="color: #800080;">setmotor <em>LeftWheelDistance RightWheelDistance Speed</em></span></strong><br />
+<br />
+As I tested in firmware 2.6, Neato's maximum speed is 300. If you exceed this value, Neato will report back something like &quot;<em>Invalid Speed Specified(500). Must be between 0 and 300</em>&quot;<br />
+<br />
+<strong>Some basic movement examples</strong><br />
+To drive forward 10cm:-<br />
+<strong><span style="color: #800080;">setmotor 100 100 100</span></strong><br />
+<br />
+To spin on the spot (rotate clockwise):-<br />
+<strong><span style="color: #800080;">setmotor 900 -900 100</span></strong><br />
+<br />
+To do a left-handed U-Turn (rotate anti-clockwise):-<br />
+<strong><span style="color: #800080;">setmotor 0 1000 100</span></strong><br />
+<br />
+As I have been experimenting, my Neato seems to steer to the left a little as it drives along in a 'straight' line. I've also had differences in distance travelled depending on my speed setting. I have yet to sit down and measure the accuracy of these movement commands.<br />
+<br />
+<h3 id="toc4"><a name="Commands available through the USB port on the XV-11--Problems You May Encounter"></a>Problems You May Encounter</h3>
+ A little issue I found in my tinkering exploits, Neato would suddenly power off when issuing commands. This seems to be because I was issuing a large amount of commands within a short period of time. To give you an idea, I was issuing a set of three SetLED commands once every 20ms. Within about 2seconds, Neato would power off. To fix the issue, unplug your USB, power up Neato and reconnect the USB.
+    </div>
+  </body>
+</html>

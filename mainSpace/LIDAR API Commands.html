@@ -1,0 +1,124 @@
+<html>
+  <head>
+    <title>xv11hacking - LIDAR API Commands</title>
+    <link rel="stylesheet" href="static/style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  </head>
+  <body>
+    <div class="wiki" id="content_view" style="display: block;">
+<p><h1>LIDAR API Commands</h1></p>Commands available from the LIDAR via direct serial connection or through the Main PCB API<br />
+<br />
+To access the API directly via the serial connection of the sensor, send an ESCAPE character (0x1B).<br />
+The lidar then responds with an invite : &quot;#&quot;<br />
+<br />
+You can then enter commands (below is the result of Help command, some additional hidden commands are probably available):<br />
+<ul><li>GetVersion</li><li>Help</li><li>Log</li><li>SaveCal</li><li>SetBaud</li><li>SetSerial</li><li>Upload</li><li>Wanderer</li><li>Calibrate b16 b8 SunBlind loop2AA loop155</li><li>GetCal A B C LPT LFL LFT LFH IMX IB LPI LCH LPD ANG</li><li>SetCal A B C LPT LFL LFT LFH IMX IB LPI LCH LPD ANG</li><li>Spin Fake DotX DotI Text Hash Timing Foto RPS Pac</li><li>TestEncoder</li></ul><br />
+Commands are case-insensitive, and can be entered incompletly : getversion, getvers, getv, GeTvErSiOn will all work alike.<br />
+<br />
+Be aware that one at least of these commands can brick your LDS...<br />
+<br />
+Here are the details of what is currently known about these commands: (To be completed!)<br />
+<ul><li>GetVersion</li></ul><br />
+Prints informations about the version of the LDS.<br />
+<br />
+Example:<br />
+
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.text  {font-family:monospace;}
+.text .imp {font-weight: bold; color: red;}
+.text span.xtra { display:block; }
+
+-->
+</style><pre class="text">GetVersion...press ESC 3 times to abort...OK
+Piccolo Laser Distance Scanner
+Copyright (c) 2009-2010 Neato Robotics, Inc.
+All Rights Reserved
+&nbsp;
+Loader  V2.4.13386
+CPU     F2802x/c600
+Serial  AAA42110AA-0003616
+LastCal [2010110136]
+Runtime V2.4.13386
+SUCCEEDED
+&nbsp;</pre>
+
+<ul><li>Help</li></ul><br />
+Prints a list of available commands.<br />
+<br />
+Example:<br />
+
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.text  {font-family:monospace;}
+.text .imp {font-weight: bold; color: red;}
+.text span.xtra { display:block; }
+
+-->
+</style><pre class="text">Help...press ESC 3 times to abort...
+  GetVersion
+  Help
+  Log
+  SaveCal
+  SetBaud
+  SetSerial
+  Upload
+  Wanderer
+  Calibrate  b16 b8 SunBlind loop2AA loop155
+  GetCal  A B C LPT LFL LFT LFH IMX IB LPI LCH LPD ANG
+  SetCal  A B C LPT LFL LFT LFH IMX IB LPI LCH LPD ANG
+  Spin  Fake DotX DotI Text Hash Timing Foto RPS Pac
+  TestEncoder
+SUCCEEDED
+&nbsp;</pre>
+
+<ul><li>Log</li></ul><br />
+<ul><li>SaveCal</li></ul><br />
+<ul><li>SetBaud</li></ul><br />
+<ul><li>SetSerial</li></ul><br />
+<ul><li>Upload</li></ul><br />
+<ul><li>Wanderer</li></ul><br />
+Draws a squirrel in a heart, in ASCII art...<br />
+<br />
+Example:<br />
+
+<style type="text/css"><!--
+/**
+ * GeSHi (C) 2004 - 2007 Nigel McNie, 2007 - 2008 Benny Baumann
+ * (http://qbnz.com/highlighter/ and http://geshi.org/)
+ */
+.text  {font-family:monospace;}
+.text .imp {font-weight: bold; color: red;}
+.text span.xtra { display:block; }
+
+-->
+</style><pre class="text">Wanderer...press ESC 3 times to abort...
+&nbsp;
+    .-&quot;&quot;&quot;-. .-&quot;&quot;&quot;-.
+   /,:;;:;    ,'=. \
+  : ;:;:;' .=&quot; ,'_\ ;
+  : ':;:;,/  ,__:=  ;
+   \ ';;:;  =./)_  /
+    `.`&quot;=\_  )_&quot;`.'
+      `.   ``'&quot;.'
+        `.   .'
+          `.'
+&nbsp;
+SUCCEEDED
+&nbsp;</pre>
+
+<br />
+<ul><li>Calibrate b16 b8 SunBlind loop2AA loop155</li></ul><br />
+<ul><li>GetCal A B C LPT LFL LFT LFH IMX IB LPI LCH LPD ANG</li></ul><br />
+<ul><li>SetCal A B C LPT LFL LFT LFH IMX IB LPI LCH LPD ANG</li></ul><br />
+<ul><li>Spin Fake DotX DotI Text Hash Timing Foto RPS Pac</li></ul><br />
+<ul><li>TestEncoder</li></ul>
+    </div>
+  </body>
+</html>

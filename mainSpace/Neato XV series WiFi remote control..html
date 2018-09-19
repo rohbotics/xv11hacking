@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>xv11hacking - Neato XV series WiFi remote control.</title>
+    <link rel="stylesheet" href="static/style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  </head>
+  <body>
+    <div class="wiki" id="content_view" style="display: block;">
+<p><h1>Neato XV series WiFi remote control.</h1></p>Neato is great in cleaning by it self, it also has good &quot;spot clean&quot; algorithm! But, what if you want to clean just a certain spot? In other words - use it like a regular vacuum?<br />
+That was the basic idea which led to realization of the full wireless remote control.<br />
+<br />
+As you may know, you can manually control Neato right out of the box by connecting it to any computer via usb and, through any terminal program, send commands to robot (for some reason article describing command list on official Neato site is unreachable at this moment, but you can get it by typing 'help'). The way you can control Neato movements is described here: <a href="http://xv11hacking.wikispaces.com/XV-11+API+Commands">http://xv11hacking.wikispaces.com/XV-11+API+Commands</a><br />
+<br />
+This is really great, but how can one use it <span class="short_text"><span class="hps">for robot's intended purpose if he or she is limited by the length of the wire? Of course you can take a laptop! :) But for me it was not the answer. Luckily, my friend recently has brought a compact (very compact) WiFi router (Commonly available from eBay as &quot;2g/3g/4g wifi router&quot;: <a class="wiki_link_ext" href="http://www.ebay.com/itm/Blue-Mini-AP-Global-Minimum-Wireless-3G-WIFI-150Mbps-Router-MPR-A5-JNEG-/310981424484?pt=LH_DefaultDomain_186&amp;hash=item4867eff564" rel="nofollow">http://www.ebay.com/itm/Blue-Mini-AP-Global-Minimum-Wireless-3G-WIFI-150Mbps-Router-MPR-A5-JNEG-/310981424484?pt=LH_DefaultDomain_186&amp;hash=item4867eff564</a> , also known as HAME MPR-A5 and MIFI-F5. MPR-A1 and clones are likely to work as well if you manage to fit them in. Some additional material is available on <a class="wiki_link_ext" href="http://my-embedded.blogspot.com/2013/12/mini-4g-router-rt5350f.html" rel="nofollow">http://my-embedded.blogspot.com/2013/12/mini-4g-router-rt5350f.html</a>) and suggested that we should try to embed it into my Neato.</span></span><br />
+<span class="short_text"><span class="hps">So, it was obvious that all we needed was to find +5V power supply and connect usb from router to neato's usb. All that sounds simple, so we did it. (i should say that my Neato has rev.64 main board)</span></span><br />
+<span class="short_text"><span class="hps"><img src="files/20140218_191445.jpg" alt="20140218_191445.jpg" title="20140218_191445.jpg" style="height: 600px; width: 800px;" /></span></span><br />
+<br />
+<span class="short_text"><span class="hps"><img src="files/20140218_193155.jpg" alt="20140218_193155.jpg" title="20140218_193155.jpg" style="height: 600px; width: 800px;" /></span></span><br />
+<span style="display: block; text-align: center;"><em><span class="short_text"><span class="hps">VCC - Red wire, D- - White wire, D+ - Green wire. (regular USB pinout)</span></span></em></span><br />
+<span class="short_text"><span class="hps">Very soon we realized that, first of all - there is no powerful enough +5V source on the main board, and the second one - Neato's software blocks it from normal functioning if it senses power supply on its usb :(</span></span><br />
+<br />
+<span class="short_text"><span class="hps">The answer to the first problem was as simple as buying 5V 500mA DC-DC converter (<a class="wiki_link_ext" href="http://www.digikey.com/product-search/en?FV=fff40042%2Cfff800df%2C1140050%2C114016f%2C11401ab%2C11401c9%2C15c0002%2C8f40010%2C8f40011%2C8f40012%2C8f40013%2C8f40014%2C8f40016%2C8f40017%2C8f40018%2C8f40019%2C8f4001a%2C8f4001b%2C8f4001c%2C8f4001d%2C8f40021%2C8f40022%2C8f40023%2C8f40024%2C8f40026%2C8f40027%2C8f40028%2C8f40029%2C8f4002a%2C8f4002b%2C8f4002e%2C8f40030%2C8f40031%2C8f40032%2C8f40034%2C8f40035%2C8f40037%2C8f40039%2C8f4003b%2C8f4003c%2C8f4003d%2C8f4003e%2C8f4003f%2C8f40041%2C8f40042%2C8f40043%2C8f40044%2C8f40047%2C8f40048%2C8f40049%2C8f4004b%2C8f4004c%2C8f4004d%2C8f4004e%2C8f4004f%2C8f40050%2C8f40051%2C8f40052%2C8f40053%2C8f40054%2C8f40056%2C8f40058%2C8f40059%2C8f4005a%2C8f4005b%2C8f4005e%2C8f40060%2C8f40061%2C8f40062%2C8f40063%2C8f40064%2C8f40067%2C8f40069%2C8f4006a%2C8f4006b%2C8f4006c%2C8f4006d%2C8f4006e%2C8f40083%2C8f40085%2C8f40086%2C8f40087%2C8f40088%2C8f40089%2C8f4008f%2C8f40090%2C8f40091%2C8f40093%2C8f40095%2C8f40096%2C8f40097%2C8f40098%2C8f4009b%2C8f4009e%2C8f400a1%2C8f400a2%2C8f400a3%2C8f400a4%2C8f400a5%2C8f400a7%2C8f400a8%2C1180005c%2C17d4003e&amp;mnonly=0&amp;newproducts=0&amp;ColumnSort=1000011&amp;page=1&amp;stock=0&amp;pbfree=0&amp;rohs=0&amp;quantity=&amp;ptm=0&amp;fid=0&amp;pageSize=25" rel="nofollow">DC-DC on digikey.com</a>) A local shop had Peak PSR-7805LF available for a reasonable price so I settled on that one. </span></span><br />
+<span class="short_text"><span class="hps"><img src="files/20140514_165346.jpg" alt="20140514_165346.jpg" title="20140514_165346.jpg" style="height: 600px; width: 800px;" /></span></span><br />
+<br />
+<span class="short_text"><span class="hps">Answer to the second problem was a bit tricky! On the router board there is a source of power which can be turned on/off by changing state of its GPIO8 (echo 1 &gt;/sys/class/gpio/gpio8/value), so my friend suggested that we will be able to control usb power supply by one P-N-P transistor witch base must be connected to that gpio. All that going to be great if only router could gave us +5V, but its voltage is only +3.3V. In the end the answer was found: we'd connected +5V from DC-DC to the Neato's usb through one p-n-p and one n-p-n transistor (with a pair of resistors) controlled by the router's +3.3V as shown below. </span></span><br />
+<span class="short_text"><span class="hps"><img src="files/boodlust1.jpg" alt="boodlust1.jpg" title="boodlust1.jpg" style="height: 345px; width: 640px;" /></span></span><br />
+<br />
+<span class="short_text"><span class="hps"><img src="files/kHVW2Ox.jpg" alt="kHVW2Ox.jpg" title="kHVW2Ox.jpg" style="height: 601px; width: 800px;" /></span></span><br />
+<br />
+<span class="short_text"><span class="hps">To get rid of micro USB plug we soldered power supply wires from DC-DC right on router's board:</span></span><br />
+<span class="short_text"><span class="hps"><img src="files/mini_4g_router_pcb_bottom.jpg" alt="mini_4g_router_pcb_bottom.jpg" title="mini_4g_router_pcb_bottom.jpg" style="height: 202px; width: 600px;" /></span></span><br />
+<br />
+<span class="short_text"><span class="hps">P.S. To fit router with all the stuff inside neato's body i've made a small 'modification' using my dremel:</span></span><br />
+<span class="short_text"><span class="hps"> <img src="files/20140218_205026.jpg" alt="20140218_205026.jpg" title="20140218_205026.jpg" style="height: 420px; width: 560px;" /></span></span><br />
+<img src="files/20140218_205326.jpg" alt="20140218_205326.jpg" title="20140218_205326.jpg" style="height: 420px; width: 560px;" /><br />
+<br />
+<span class="short_text"><span class="hps">Thats about the hardware, the other part is software.</span></span><br />
+<br />
+<span class="short_text"><span class="hps">So now i have a fully functional Neato with a full control from any place in the world ;) I can remotely start cleaning in full cycle, or change its schedule, or use it full manual, or, even, just play like with RC car :)</span></span>
+    </div>
+  </body>
+</html>
